@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
 
-.main_menu li{
+.main_menu li {
     list-style-type: none
+}
+
+ol li {
+    list-style-type: numeric;
 }
