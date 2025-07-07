@@ -1,1 +1,6 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+
+
+.main_menu li{
+    list-style-type: none
+}
