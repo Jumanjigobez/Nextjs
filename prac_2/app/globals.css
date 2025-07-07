@@ -1,7 +1,1 @@
-@import "tailwindcss/preflight";
-@tailwind utilities;
-
-
-.main_menu li{
-    list-style-type: none
-}
+@import 'tailwindcss';
