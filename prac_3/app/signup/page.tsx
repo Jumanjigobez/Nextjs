@@ -1,6 +1,13 @@
-import React from 'react'
+"use client";
+import React, { useState } from 'react'
 
 const Signup = () => {
+    const [fname,setFname] = useState<String | null>(null),
+        [email,setEmail] = useState<String | null>(null),
+        [psk,setPsk] = useState<String | null>(null),
+        [cpsk,setCpsk] = useState<String | null>(null);
+
+    
   return (
 
     <>
@@ -12,22 +19,22 @@ const Signup = () => {
         <form className='card flex flex-col gap-5 w-full'>
             <div className="input_group flex flex-col gap-2 w-full">
                 <label htmlFor="fname">Full Name</label>
-                <input type="text" name="fname" id="fname" required className='input w-full'/>
+                <input type="text" name="fname" id="fname" required className='input w-full'  onChange={(e)=>setFname(e.target.value)}/>
             </div>
 
              <div className="input_group flex flex-col gap-2 w-full">
                 <label htmlFor="email">Email</label>
-                <input type="email" name="email" id="email" required className='input w-full'/>
+                <input type="email" name="email" id="email" required className='input w-full'  onChange={(e)=>setEmail(e.target.value)}/>
             </div>
 
             <div className="input_group flex flex-col gap-2 w-full">
                 <label htmlFor="psk">Password</label>
-                <input type="password" name="psk" id="psk" required className='input w-full'/>
+                <input type="password" name="psk" id="psk" required className='input w-full'  onChange={(e)=>setPsk(e.target.value)}/>
             </div>
 
             <div className="input_group flex flex-col gap-2 w-full">
                 <label htmlFor="cpsk">Confirm Password</label>
-                <input type="password" name="cpsk" id="cpsk" required className='input w-full'/>
+                <input type="password" name="cpsk" id="cpsk" required className='input w-full'  onChange={(e)=>setCpsk(e.target.value)}/>
             </div>
 
             <div className="input_group">
