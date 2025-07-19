@@ -1,9 +1,13 @@
 "use client";
 import React, { useEffect, useState } from 'react'
 
+import { useAuth } from '../context/authContext';
+
 const Signin = () => {
     const [email, setEmail] = useState<String | null>(null),
           [psk, setPsk] = useState<String | null>(null);
+    
+    const {SignIn} = useAuth();
 
     // useEffect(()=>{
     //    console.log(email, psk);
@@ -36,7 +40,7 @@ const Signin = () => {
             </div>
         </form>
         <div className="input_group mt-5">
-            <button className='btn w-full bg-transparent hover:bg-white-500'>Sign in with Google</button>
+            <button className='btn w-full bg-transparent hover:bg-white-500' onClick={SignIn}>Sign in with Google</button>
         </div>
     </div>
     </>

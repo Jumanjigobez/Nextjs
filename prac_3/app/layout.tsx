@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./components/header";
 
+import { AuthProvider } from "./context/authContext";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -25,13 +27,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <AuthProvider>
+         <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <main className="flex flex-col items-center w-screen p-10 pt-0 gap-10">
           <Header/>
           {children}
         </main>
         
       </body>
+      </AuthProvider>
+     
     </html>
   );
 }

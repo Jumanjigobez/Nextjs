@@ -1,6 +1,10 @@
 "use client";
 import React, { useState } from 'react'
 
+
+
+//configure firebaseui
+
 const Signup = () => {
     const [fname,setFname] = useState<String | null>(null),
         [email,setEmail] = useState<String | null>(null),
@@ -8,6 +12,7 @@ const Signup = () => {
         [cpsk,setCpsk] = useState<String | null>(null);
 
     
+
   return (
 
     <>
