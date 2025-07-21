@@ -50,7 +50,9 @@ const Signup = () => {
        
         SignPop()
         .then((data:any)=>{
-            console.log(data)
+            console.log(data);
+            
+            router.push("/");
         })
         .catch((error:any)=>{
             console.error("Error:",error)

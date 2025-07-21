@@ -2,16 +2,56 @@
 import React, { useEffect, useState } from 'react'
 
 import { useAuth } from '../context/authContext';
+import { useRouter } from 'next/navigation';
+import { AuthErrorCodes } from 'firebase/auth';
 
 const Signin = () => {
     const [email, setEmail] = useState<String | null>(null),
-          [psk, setPsk] = useState<String | null>(null);
+          [psk, setPsk] = useState<String | null>(null),
+          [loading, setLoading] = useState<Boolean>(false);
     
-    const {SignIn} = useAuth();
+    const router = useRouter();
+    
+    const {SignInEmail, SignPop} = useAuth();
 
-    // useEffect(()=>{
-    //    console.log(email, psk);
-    // },[email, psk])
+    const handleSignIn = (e: React.FormEvent) =>{
+        e.preventDefault();
+
+        
+        if(email && psk){
+            setLoading(true);
+
+            SignInEmail(email, psk)
+            .then(()=>{
+                router.push("/")
+            })
+            .catch((error:any)=>{
+                if(error.code === AuthErrorCodes.INVALID_LOGIN_CREDENTIALS){
+                    alert("Invalid Credentials!");
+                    setLoading(false);
+                }else{
+                    console.error("Error creating user:", error.code, error.message);
+                }
+               
+                
+            })
+            
+        }else{
+            alert("Fields Empty")
+        }
+        }
+
+    const handleSignInGoogle = () =>{
+        SignPop()
+        .then((data:any)=>{
+            console.log(data);
+            
+            router.push("/");
+        })
+        .catch((error:any)=>{
+            console.error("Error:",error)
+        })
+    }
    
   return (
 
@@ -21,7 +61,7 @@ const Signin = () => {
     </div>
 
     <div className="form_part card card-border w-100 p-5 border-blue-500">
-        <form className='card flex flex-col gap-5 w-full'>
+        <form className='card flex flex-col gap-5 w-full' method='post' onSubmit={(e)=>handleSignIn(e)}>
            
              <div className="input_group flex flex-col gap-2 w-full">
                 <label htmlFor="email">Email</label>
@@ -36,11 +76,11 @@ const Signin = () => {
          
 
             <div className="input_group">
-               <button type="submit" className='btn w-full bg-blue-500 hover:bg-transparent'>Sign in</button>
+               <button type="submit" className='btn w-full bg-blue-500 hover:bg-transparent' disabled={loading && true}>Sign in</button>
             </div>
         </form>
         <div className="input_group mt-5">
-            <button className='btn w-full bg-transparent hover:bg-white-500' onClick={SignIn}>Sign in with Google</button>
+            <button className='btn w-full bg-transparent hover:bg-white-500' onClick={handleSignInGoogle}>Sign in with Google</button>
         </div>
     </div>
     </>
