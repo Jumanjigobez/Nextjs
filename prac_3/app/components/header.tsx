@@ -57,7 +57,7 @@ const Header = () => {
 
                     <li>
                         <Link href="#" className="hover:text-gray-700" onClick={handleSignOut}>
-                            Sign Out
+                            Signout
                         </Link>
                     </li>
 
