@@ -9,12 +9,14 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // useEffect(() => {
-  //     const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //         setUser(user);
-  //     });
-  //     return () => unsubscribe();
-  // }, [])
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+    return () => unsubscribe();
+  }, [])
+
+  // console.log(user);
 
   const SignUpEmail = (email, password) => {
 

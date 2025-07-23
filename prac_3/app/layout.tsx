@@ -29,12 +29,12 @@ export default function RootLayout({
     <html lang="en">
       <AuthProvider>
          <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <main className="flex flex-col items-center w-screen p-10 pt-0 gap-10">
-          <Header/>
-          {children}
-        </main>
-        
-      </body>
+            <main className="flex flex-col items-center w-screen p-10 pt-0 gap-10">
+              <Header/>
+              {children}
+            </main>
+            
+          </body>
       </AuthProvider>
      
     </html>

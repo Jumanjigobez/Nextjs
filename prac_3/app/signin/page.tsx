@@ -44,7 +44,7 @@ const Signin = () => {
     const handleSignInGoogle = () =>{
         SignPop()
         .then((data:any)=>{
-            console.log(data);
+            // console.log(data);
             
             router.push("/");
         })
