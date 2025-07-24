@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useAuth } from '../context/authContext';
 import { useRouter } from 'next/navigation';
 import { AuthErrorCodes } from 'firebase/auth';
+import Link from 'next/link';
 
 const Signin = () => {
     const [email, setEmail] = useState<String | null>(null),
@@ -73,7 +74,10 @@ const Signin = () => {
                 <input type="password" name="psk" id="psk" required className='input w-full' onChange={(e)=>setPsk(e.target.value)}/>
             </div>
 
-         
+            <div className="input_group">
+                <Link href={"/reset"} className='text-blue-300 hover:text-white'>Forgot Password?</Link>
+               
+            </div>   
 
             <div className="input_group">
                <button type="submit" className='btn w-full bg-blue-500 hover:bg-transparent' disabled={loading && true}>Sign in</button>
