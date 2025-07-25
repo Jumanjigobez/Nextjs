@@ -17,7 +17,7 @@ const Signup = () => {
     
     const router = useRouter();
 
-    const {SignUpEmail, SignPop} = useAuth();
+    const {SignUpEmail, SignPop, SendVerification} = useAuth();
 
     const handleSignup = (e: React.FormEvent) =>{
         e.preventDefault();
@@ -28,31 +28,46 @@ const Signup = () => {
 
             SignUpEmail(email, psk)
             .then(()=>{
-                router.push("/")
+                SendVerification()
+                .then(()=>{
+                    alert("Email Verification Sent");
+
+                    router.push("/")
+                })
+                
             })
             .catch((error:any)=>{
-               
+               setLoading(false);
+
                if (error.code === AuthErrorCodes.WEAK_PASSWORD) {
                     alert("The password is too weak.");
                 } else if (error.code === AuthErrorCodes.INVALID_EMAIL) {
                     alert("The email address is invalid.");
+                } else if (error.code === AuthErrorCodes.EMAIL_EXISTS) {
+                    alert("The email address already exists.");
                 } else {
                     console.error("Error creating user:", error.code, error.message);
                 }
             })
             
         }else{
-            alert("Password Missmatch")
+            alert("Password Missmatch");
+            setLoading(false);
         }
     }
 
     const handleSignupGoogle = () =>{
        
         SignPop()
-        .then((data:any)=>{
-            console.log(data);
-            
-            router.push("/");
+        .then(()=>{
+            // console.log(data);
+
+            SendVerification()
+                .then(()=>{
+                    alert("Email Verification Sent");
+
+                    router.push("/")
+                })
         })
         .catch((error:any)=>{
             console.error("Error:",error)
