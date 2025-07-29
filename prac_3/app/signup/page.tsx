@@ -3,7 +3,8 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../context/authContext';
 import { AuthErrorCodes } from 'firebase/auth';
-
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '../firebase/firebase';
 
 
 //configure firebaseui
@@ -27,7 +28,18 @@ const Signup = () => {
             setLoading(true);
 
             SignUpEmail(email, psk)
-            .then(()=>{
+            .then((data:any)=>{
+                // console.log(data)
+
+                setDoc(doc(db, 'users', data.user.uid), {
+                    email: email,
+                    fullName: fname,
+                    createdAt: new Date().toISOString(),
+                }).then(()=>{
+                    console.log("User Stored Successfully");
+                })
+
+
                 SendVerification()
                 .then(()=>{
                     alert("Email Verification Sent");
@@ -59,15 +71,27 @@ const Signup = () => {
     const handleSignupGoogle = () =>{
        
         SignPop()
-        .then(()=>{
-            // console.log(data);
+        .then((data:any)=>{
+            console.log(data);
 
+            setDoc(doc(db, 'users', data.user.uid), {
+                email: data.user.email,
+                fullName: data.user.displayName,
+                createdAt: new Date().toISOString(),
+            }).then(()=>{
+                console.log("User Stored Successfully");
+            })
+
+            !data.user.emailVerified &&
             SendVerification()
                 .then(()=>{
                     alert("Email Verification Sent");
 
-                    router.push("/")
-                })
+                   
+            });
+
+            router.push("/")
+
         })
         .catch((error:any)=>{
             console.error("Error:",error)
