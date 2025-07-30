@@ -4,7 +4,17 @@ import Link from "next/link";
 import { useAuth } from "../context/authContext";
 import { useRouter } from "next/navigation";
 
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "../firebase/firebase";
+import { useEffect, useState } from "react";
+
+type userDataType = {
+    createdAt: string,
+    email: string,
+    fullName: string
+}
 const Header = () => {
+    const [userData, setUserData] = useState<userDataType>();
     const {user, LogOut} = useAuth();
     const router = useRouter();
 
@@ -15,6 +25,26 @@ const Header = () => {
         })
         
     }
+    
+    useEffect(() => {
+        if (!user?.uid) return;
+
+        const fetchUserData = async () => {
+            try {
+                const docSnap:any = await getDoc(doc(db, 'users', user.uid));
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    setUserData(data);
+                } else {
+                    console.error("No such document!");
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        };
+
+        fetchUserData();
+    }, [user?.uid]);
     // console.log(user);
   return (
     <header className=" bg-blue-500 w-screen pt-5 pb-5 flex justify-around items-center lg:flex-row max-[800px]:flex-col">
@@ -52,7 +82,7 @@ const Header = () => {
                     </li>
 
                     <li>
-                        <span className="text-2.5xl text-green-400">{user.email}</span>
+                        <span className="text-2.5xl text-green-400">{userData ? userData.fullName : user.email}</span>
                     </li>
 
                     <li>
