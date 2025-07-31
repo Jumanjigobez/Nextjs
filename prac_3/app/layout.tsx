@@ -32,6 +32,7 @@ export default function RootLayout({
             <main className="flex flex-col items-center w-screen p-10 pt-0 gap-10">
               <Header/>
               {children}
+              
             </main>
             
           </body>
