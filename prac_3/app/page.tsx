@@ -6,8 +6,6 @@ import { db } from "./firebase/firebase";
 import { useAuth } from "./context/authContext";
 
 
-// ""
-// "you need to verify your email to see the punchline!"
 
 type JokeFromFirestore = {
   setup: string;
@@ -48,7 +46,7 @@ export default function Home() {
 
   },[])
 
-  console.log(jokes)
+  console.log(user)
   return (
     <>
       <div className="title">
@@ -56,7 +54,7 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col gap-7 text-2xl">
-        {user && jokes ? 
+        {user && user.emailVerified && jokes ? 
           jokes.map((joke: Joke)=>(
             
             <div className="flex flex-col gap-3 pt-2 pb-2 border-t-2 border-b-2 " key={joke.id}>
@@ -71,17 +69,17 @@ export default function Home() {
           <>
           <div className="flex flex-col gap-3 pt-2 pb-2 border-t-2 border-b-2 ">
             <p>Q: {" "}What do you call a fake noodle?</p>
-            <p className="text-red-400">A: {" "}you need to sign in to see the punchline!</p>
+            <p className="text-red-400">A: {" "}{user && user.emailVerified ? "you need to sign in to see the punchline!" : "you need to verify your email to see the punchline!"}</p>
           </div>
 
           <div className="flex flex-col gap-3 pb-2 border-b-2">
             <p>Q: {" "}Why did the scarecrow get promoted?</p>
-            <p className="text-red-400">A: {" "}you need to sign in to see the punchline!</p>
+            <p className="text-red-400">A: {" "}{user && user.emailVerified ? "you need to sign in to see the punchline!" : "you need to verify your email to see the punchline!"}</p>
           </div>
 
           <div className="flex flex-col gap-3 pb-2 border-b-2">
             <p>Q: {" "}Why do bees have sticky hair?</p>
-            <p className="text-red-400">A: {" "}you need to sign in to see the punchline!</p>
+            <p className="text-red-400">A: {" "}{user && user.emailVerified ? "you need to sign in to see the punchline!" : "you need to verify your email to see the punchline!"}</p>
           </div>
           </>
 
