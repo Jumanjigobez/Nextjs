@@ -69,17 +69,17 @@ export default function Home() {
           <>
           <div className="flex flex-col gap-3 pt-2 pb-2 border-t-2 border-b-2 ">
             <p>Q: {" "}What do you call a fake noodle?</p>
-            <p className="text-red-400">A: {" "}{user && user.emailVerified ? "you need to sign in to see the punchline!" : "you need to verify your email to see the punchline!"}</p>
+            <p className="text-red-400">A: {" "}{!user ? "You need to sign in to see the punchline!" : !user.emailVerified && "You need to verify your email to see the punchline!"}</p>
           </div>
 
           <div className="flex flex-col gap-3 pb-2 border-b-2">
             <p>Q: {" "}Why did the scarecrow get promoted?</p>
-            <p className="text-red-400">A: {" "}{user && user.emailVerified ? "you need to sign in to see the punchline!" : "you need to verify your email to see the punchline!"}</p>
+            <p className="text-red-400">A: {" "}{!user ? "You need to sign in to see the punchline!" : !user.emailVerified && "You need to verify your email to see the punchline!"}</p>
           </div>
 
           <div className="flex flex-col gap-3 pb-2 border-b-2">
             <p>Q: {" "}Why do bees have sticky hair?</p>
-            <p className="text-red-400">A: {" "}{user && user.emailVerified ? "you need to sign in to see the punchline!" : "you need to verify your email to see the punchline!"}</p>
+            <p className="text-red-400">A: {" "}{!user ? "You need to sign in to see the punchline!" : !user.emailVerified && "You need to verify your email to see the punchline!"}</p>
           </div>
           </>
 
