@@ -1,6 +1,54 @@
+"use client";
 
+import { getDocs, collection} from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { db } from "./firebase/firebase";
+import { useAuth } from "./context/authContext";
+
+
+// ""
+// "you need to verify your email to see the punchline!"
+
+type JokeFromFirestore = {
+  setup: string;
+  punchline: string;
+};
+
+type Joke = JokeFromFirestore & {
+  id: string;
+};
+
+type Jokes = Joke[];
 
 export default function Home() {
+  const [jokes, setJokes] = useState<Jokes>([]);
+
+  const {user} = useAuth();
+
+  useEffect(()=>{
+   const fetchJokes = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "jokes"));
+       const jokesArray: Jokes = querySnapshot.docs.map(doc => {
+          const data = doc.data() as JokeFromFirestore;
+          return {
+            id: doc.id,
+            ...data
+          };
+        });
+
+        setJokes(jokesArray);
+
+      } catch (error) {
+        console.error("Error fetching jokes:", error);
+      }
+    };
+
+    fetchJokes();
+
+  },[])
+
+  console.log(jokes)
   return (
     <>
       <div className="title">
@@ -8,20 +56,37 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col gap-7 text-2xl">
-        <div className="flex flex-col gap-3 pt-2 pb-2 border-t-2 border-b-2 ">
-          <p>Q: {" "}What do you call a fake noodle?</p>
-          <p>A: {" "}An impasta.</p>
-        </div>
+        {user && jokes ? 
+          jokes.map((joke: Joke)=>(
+            
+            <div className="flex flex-col gap-3 pt-2 pb-2 border-t-2 border-b-2 " key={joke.id}>
+              <p>Q: {" "}{joke.setup}</p>
+              <p className="text-green-400">A: {" "}{joke.punchline}</p>
+            </div>
+                   
+          )
+            
+          )
+        :(
+          <>
+          <div className="flex flex-col gap-3 pt-2 pb-2 border-t-2 border-b-2 ">
+            <p>Q: {" "}What do you call a fake noodle?</p>
+            <p className="text-red-400">A: {" "}you need to sign in to see the punchline!</p>
+          </div>
 
-        <div className="flex flex-col gap-3 pb-2 border-b-2">
-          <p>Q: {" "}Why did the scarecrow get promoted?</p>
-          <p>A: {" "}He was outstanding in his field.</p>
-        </div>
+          <div className="flex flex-col gap-3 pb-2 border-b-2">
+            <p>Q: {" "}Why did the scarecrow get promoted?</p>
+            <p className="text-red-400">A: {" "}you need to sign in to see the punchline!</p>
+          </div>
 
-        <div className="flex flex-col gap-3 pb-2 border-b-2">
-          <p>Q: {" "}Why do bees have sticky hair?</p>
-          <p>A: {" "}Because they use a honeycomb.</p>
-        </div>
+          <div className="flex flex-col gap-3 pb-2 border-b-2">
+            <p>Q: {" "}Why do bees have sticky hair?</p>
+            <p className="text-red-400">A: {" "}you need to sign in to see the punchline!</p>
+          </div>
+          </>
+
+        )}
+        
       </div>
     </>
    
